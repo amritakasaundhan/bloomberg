@@ -1,0 +1,32 @@
+class Solution {
+    public Node connect(Node root) {
+        if(root == null){
+            return root;
+        }
+        Queue<Node> q = new LinkedList<>();
+        Queue<Integer> level = new LinkedList<>();
+        q.add(root);
+        level.add(0);
+        while(!q.isEmpty()){
+            Node curr = q.poll();
+            int l = level.poll();
+            if(curr.left != null){
+               q.add(curr.left);
+                level.add(l+1); 
+            }
+            if(curr.right != null){
+                q.add(curr.right);
+                level.add(l+1);   
+            }
+            if(!q.isEmpty()){
+              if(l != level.peek()){
+               curr.next = null;
+                 }else{
+                curr.next = q.peek();
+                }  
+            }
+            
+        }
+        return root;
+    }
+}
