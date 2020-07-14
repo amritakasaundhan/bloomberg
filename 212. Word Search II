@@ -1,3 +1,77 @@
+Approach 1: using dfs, apply dfs in matrix and check for every word in word list if its present in matrix.
+
+
+Approach2 : Using Trie and dfs.
+
+class Trie{
+    Trie[] next = new Trie[26];
+    String word;
+    public Trie(){
+        for(int i = 0; i < 26; i++){
+            next[i] = null;
+        }
+        word = null;
+    }
+}
+
+class Solution {
+
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String>result = new ArrayList<>();
+        Trie root = buildTrie(words);
+        for(int i = 0 ; i< board.length; i++){
+            for(int j = 0; j < board[0].length ; j++){
+                dfs(i, j, board, root, result);
+            }
+        }
+        return result;
+    }
+    public void dfs(int i, int j, char[][] board, Trie root, List<String> result){
+        char ch = board[i][j];
+        if(ch == '#' || root.next[ch -'a'] == null){
+            return;
+        }
+        root = root.next[ch-'a'];
+        if(root.word != null){
+            result.add(root.word);
+            root.word = null;
+            
+        }
+        board[i][j] = '#';
+        if(i > 0){
+            dfs(i-1, j, board, root, result);
+        }
+        if(i < board.length-1){
+            dfs(i+1, j, board, root, result);
+        }
+        if(j > 0){
+            dfs(i, j-1, board, root, result);
+        }
+        if(j < board[0].length-1){
+            dfs(i, j+1, board, root, result);
+        }
+        board[i][j] = ch;
+    }
+    public Trie buildTrie(String []words){
+        Trie root = new Trie();
+        for(String word : words){
+            Trie p = root;
+            for(Character ch : word.toCharArray()){
+                int index = ch -'a';
+                if(p.next[index] == null){
+                    p.next[index] = new Trie();
+                }
+                p = p.next[index];
+                
+            }
+            p.word = word;
+        }
+        return root;
+    }
+    
+}
+Approach 1: 
+
 class Solution {
     public List<String> result;
     public List<String> findWords(char[][] board, String[] words) {
