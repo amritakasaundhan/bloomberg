@@ -1,3 +1,19 @@
+Approach:
+Use a stack to store the characters. Keep on storing until encounter character closing bracket
+as soon as encounter closing bracker: in loop keep on poping from stack and appending in string builder until encounter a digit character
+while appending in string builder skip opening bracket
+in another while loop keep on popping from stack till the characters are digit.
+extract the numeric value of charatcers- this given the count to repeat the character
+after this again push characters in original stack  for the count
+at the end keep appending at start of string builder and poppoing elements of original stack and return to string to stringbuilder
+eg: 3[a]2[bc]
+stack- 3[a
+        empty stack
+        aaa
+        aaa2[bc
+        aaabcbcbc
+
+
 class Solution {
     public String decodeString(String s) {
         Stack<Character> stack = new Stack<>();
