@@ -1,0 +1,139 @@
+Approach1: one using priority queue to keep track of min element and list to store elements if we can not use stack data structure. 
+Approach2: Using two stack. one stack to store all the element and second stack to store min element. while push check if int x is  less minstack peek, add to minstack
+along with stack
+while pop check if stack peek is euqal to minstack peek, pop from both the stack else pop from stack only 
+for getmin return minstack peek
+for top return stack peek.
+Approach3: using one stack and one variable:
+while pushing check if the element is less than min. If it is less than min then first push min to stack and then push element x to stack else only push x to stack
+while pop, check if stack. peek is equals to min pop top 2 elements(because we store min and element x in case min element ecounter) else pop only one element
+while getmin return min
+while top return top
+Approach3:
+class MinStack {
+    Stack<Integer>stack ;
+    int min = Integer.MAX_VALUE;
+    public MinStack() {
+        stack = new Stack<>();
+    }
+    
+    public void push(int x) {
+        if(x <= min){
+            stack.push(min);
+            min = x;
+        }
+        stack.push(x);
+        
+    }
+    
+    public void pop() {
+        if(stack.pop().equals(min)){
+            min = stack.pop();
+            
+        }
+    }
+    
+    public int top() {
+        return stack.peek();
+    }
+    
+    public int getMin() {
+        return min;
+    }
+}
+
+Appraoch 2:
+class MinStack {
+    Stack<Integer> stack ;
+    Stack<Integer> minStack;
+    public MinStack() {
+        stack = new Stack<>();
+        minStack = new Stack<>();
+    }
+    
+    public void push(int x) {
+        if(! minStack.isEmpty()){
+           if(minStack.peek() >= x){
+                stack.push(x);
+                minStack.push(x); 
+           }else{
+               stack.push(x);
+           }
+        }else{
+            stack.push(x);
+            minStack.push(x);
+        }
+    }
+    
+    public void pop() {
+        if(!stack.isEmpty() && !minStack.isEmpty()){
+            if(stack.peek().equals(minStack.peek())){
+                stack.pop();
+                minStack.pop();
+            }else{
+                stack.pop();
+            }
+        }
+        
+    }
+    
+    public int top() {
+        if(!stack.isEmpty()){
+          return stack.peek();  
+        }
+        
+        return -1;
+    }
+    
+    public int getMin() {
+        if(!minStack.isEmpty()){
+          return minStack.peek();  
+        }
+        
+        return -1;
+    }
+}
+approach1:
+class MinStack {
+    List<Integer> stack_min;
+    PriorityQueue<Integer> minElement;
+    int index;
+    public MinStack() {
+        stack_min = new ArrayList<>();
+        minElement = new PriorityQueue<>();
+        index = 0;
+    }
+    
+    public void push(int x) {
+        stack_min.add(x);
+        index++;
+        minElement.add(x);
+    }
+    
+    public void pop() {
+        if(stack_min.size()>0){
+            int p = stack_min.get(index-1);
+           stack_min.remove(index-1);
+            index--;
+            if(minElement.peek() == p){
+                minElement.poll();
+            }
+        }
+        
+    }
+    
+    public int top() {
+        if(stack_min.size() > 0){
+            return stack_min.get(index-1);
+        }
+        return -1;
+        
+    }
+    
+    public int getMin() {
+        if(stack_min.size() > 0 && !minElement.isEmpty()){
+            return minElement.peek();
+        }
+        return -1;
+    }
+}
